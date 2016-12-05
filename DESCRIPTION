@@ -1,0 +1,24 @@
+Package: bannerCommenter
+Type: Package
+Title: Make Banner Comments with a Consistent Format
+Version: 0.1.0
+Author: Bill Venables <Bill.Venables@gmail.com>
+Maintainer: Bill Venables <Bill.Venables@gmail.com>
+Description: A convenience package for use while drafting code.
+    It facilitates making stand-out comment lines decorated with
+    bands of characters.  The input text strings are converted into
+    R comment lines, suitably formatted. These are then displayed in
+    a console window and, if possible, automatically transferred to a
+    clipboard ready for pasting into an R script.  Designed to save
+    time when drafting R scripts that will need to be navigated and
+    maintained by other programmers.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+Suggests: knitr, rmarkdown, dplyr, datasets
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2016-12-05 12:46:58 UTC; bill
+Repository: CRAN
+Date/Publication: 2016-12-05 14:49:23

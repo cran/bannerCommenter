@@ -1,0 +1,273 @@
+---
+title: "Consistent Banner Comments for R Scripts"
+author: "Bill Venables"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+    toc: yes
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{Consistent Banner Comments for R Scripts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(comment = "", echo = FALSE)
+library(bannerCommenter)
+```
+
+## Rationale
+
+This tiny package is purely for the convenience of authors who wish to
+document their code with the occasional block of clearly marked
+comments in order to make the code more easily navigable.
+
+A common practice is to use comment lines enclosed in some kind of
+band, or box of display characters.  We call such a block of comments
+a __banner comment__, and by using them sparingly and judiciously code
+can be made much easier to navigate visually and hence to maintain.
+
+Examples might include blocks such as the following to initiate a
+major code section:
+
+```{r}
+section("Section 1", "Data input and initialization")
+```
+Subsections might be flagged by less prominent comments such as
+one like this
+```{r}
+boxup("Primary data input", bandChar = "-", center = TRUE)
+```
+or a more minor one like
+```{r}
+open_box("Some minor glitches in the data\nneed special treatment here", 
+      bandChar = ".", snug = TRUE)
+```
+
+Banner comments look much better if there is a consistent formatting
+throughout the script so that sections and sub-sections can be readily
+identified.  This is quite easy to do, but to do it properly can take
+some editing and drafting time.
+
+The simple tool we offer here aims to make the formatting tasks
+essentially no more work than typing the text itself.  It presumes
+that while the R script is being drafted there will be a console
+window open as well, but this is almost _de rigeur_ these days.
+
+## How to use it
+
+The package `bannerCommenter` provides a single main function,
+`banner`, along with a few helpers.
+
+To make a banner such as the first one above you could simply type the
+text into the console window via a call to the main function:
+
+```{r, echo = TRUE}
+library(bannerCommenter)
+banner("Section 1:", "Data input and initialization", emph = TRUE)
+```
+
+This provides a formatted comment that can be copy-and-pasted into the
+script.  However, if the operating system allows it, as well as
+displaying the comment in the console window the result is _also
+copied onto a_ `clipboard` _file or pipe_, so the "copy" part of the
+copy-and-paste should not be required.
+
+Two other conveniences are also provided.
+
+1. Since this is likely to be a common form of banner comment, a
+   simple front-end function `section()` is provided which simply
+   called `banner(..., emph = TRUE)`, that is with the `emph` argument
+   having a different default value.
+
+2. Rather than typing strings with quite delimiters separated by
+   commas, if the function is called with no string arguments, and in
+   an interactive session of course, the strings are read from the
+   terminal, line by line, with prompts issued as with the `scan`
+   function.  An empty line indicates the lines are complete.
+   
+An example, again with the same banner comment, is as follows
+
+```
+> section()
+1: Section 1
+2: Data input and initialization
+3: 
+
+###########################################################################
+###########################################################################
+###                                                                     ###
+###                              SECTION 1                              ###
+###                    DATA INPUT AND INITIALIZATION                    ###
+###                                                                     ###
+###########################################################################
+###########################################################################
+
+> 
+```
+At this point the user should be able to paste the banner comment into the script in the
+usual way.  If the automatic clipboard facility is not available the band displayed in
+the console window, essentially for checking, can easily be used for manual copy-and-paste.
+
+In a series of similar comment banners the function would normally be invoked by
+command line recall making only the typing of the text itself necessary.
+
+## Arguments
+
+At first sight `banner` seems to have a bewildering number of arguments, but most have sensible
+defaults and there are four front-end functions like `section` that handle simple 
+special cases where the default values are slightly different.
+
+The full list of arguments to `banner` and their default values are listed in the 
+table below.  Note that some argument defaults refer to the values of other arguments.
+
+
+```{r, results = "asis"}
+txt <- structure(c("`x, ...`", "",
+                   "`emph`", 
+                   "`snug`", 
+                   "`upper`", 
+                   "`centre`", 
+                   "`leftSideHashes`", 
+                   "`rightSideHashes`",
+                   "`minHashes`", 
+                   "`numLines`", 
+                   "`bandChar`", 
+                   "`center`", 
+                   "One or more strings, which may be missing.", 
+                   "(Single strings may be further broken by '`\\n`'.)",
+                   "Do you want emphasis, i.e. a bigger, bolder banner?", 
+                   "Do you want any box to be close fitting?", 
+                   "Do you want the text to be in upper case?", 
+                   "Do you want the text lines to be centred?", 
+                   "How many hash characters to the left?", 
+                   "How many hash characters to the right", 
+                   "How long do you want the bands (at least)?", 
+                   "How many lines above and below do you want?", 
+                   "What character do you want to use for the bands?", 
+                   "Foreign, alternative spelling of '`centre`'", 
+                   "`<none>`", "",
+                   "`FALSE`", 
+                   "`FALSE`", 
+                   "`emph`", 
+                   "`!snug && emph`", 
+                   "`2 + emph`", 
+                   "`leftSideHashes`", 
+                   "`(!snug) * (65 + 10 * emph)`", 
+                   "`1 + emph`", 
+                   "`\"#\"`", 
+                   "`centre`"), 
+                 .Dim = c(12L, 3L), 
+                 .Dimnames = list(NULL, c("Argument", "Meaning", "Default")))
+knitr::kable(txt)
+```
+
+## Examples
+
+As well as `section` there are three other front-end functions that
+simply act as a call to `banner` with different default values for
+some of the arguments.  Rather than describe them in detail it
+suffices simply to provide a few example, beginning with the primary
+function itself.
+
+```{r, echo = TRUE}
+txt <- "This is the text of a comment"
+banner(txt)  ## default heavy style
+
+banner(txt, centre = TRUE, bandChar = "-")
+
+boxup(txt, snug = TRUE, bandChar = "=")
+
+open_box(txt, bandChar = ":")
+
+block("This is a chatty comment.  Entering it this way just",
+      "saves a tiny bit of typing but it can be useful if",
+      "you need multiple initial hash marks, as you may when",
+      "using Emacs/ESS, for example.",
+      "Or if you want the lines centred for some odd reason.",
+      center = TRUE)
+
+boxup("")  ## short lines of uniform length, for use as a separator
+
+section("")  ## heavier, longer double lines to separate bigger things
+```
+
+## Notes
+
+### The number of leading hash characters
+
+In some editing systems, where a comment has only white space before it on a 
+single line, the number of leading comment characters is significant.  It affects
+how the line is changed under automatic reformatting.  For example, `Emacs/ESS` 
+adopts this convention by default:
+
+* A line with a single leading comment character, only, is aligned so that it begins
+  near the middle of the line.  (I have no explanation as to why!)
+
+* A line with two leading comment characters, only, is aligned as if it were an
+  active code line.  This is often useful.
+  
+* A line with three or more leading comment characters is aligned so that it
+  begins in the first column and so occupies the whole line.
+
+Some commentators recommend using a single leading comment character for all comments,
+and `RStudio`, for example, facilitates this choice.  However if the same code is handled
+by `Emacs/Ess` the comments are liable to be right shifted to start in the middle of the
+line (unless the default is changed, of course, which is not initially very clear).
+
+This may be useful to keep in mind when two or more systems may be used to maintain
+the same `R` scripts.
+
+### Sending text strings to the clipboard
+
+A helper function used in this package may be useful in its own right.
+The function `copy_to_clipboard` allows text strings to be copied to a
+clipboard file (or pipe) in a reasonably cross platform way, at least
+for `Linux`, `Windows` and `Mac OS`.
+
+A call such as
+```{r, eval = FALSE, echo = TRUE}
+copy_to_clipboard(txt)
+```
+will return `txt` invisibly, but will have the side effect of
+transferring any strings in the `txt` object to a clipboard device.
+In effect it behaves like a `print` method, but with the "printing"
+going on to a clipboard device rather than on to `stdout`.
+
+To work on `Linux` the system command `xclip` has to be installed and
+visible on the `PATH` and on `Mac OS` the system command `pbcopy` has
+similarly to be installed and visible.  On `Windows` it should work
+universally.
+
+Note that this is _not_ a file or pipe connection in itself, but a
+_function_ which transfers strings to an appropriate clipboard
+device. Thus, for example, to write a short data frame onto a
+clipboard device in a way that works across the three platforms, you
+may need to do something like the following:
+
+```{r, eval=FALSE, echo = TRUE, message = FALSE}
+library(dplyr)
+mtcarsText <- datasets::mtcars   %>% 
+  capture.output(write.table(.)) %>% 
+  copy_to_clipboard(sep = "\n")
+```
+At this point `mrcarsText` is a character string vector with the lines
+of `datasets::mtcars` as its elements, and the information would be
+available on the clipboard for a paste operation.
+
+### Gratuitous advice
+
+Use sparingly and judiciously.  Most comments will simply be done by
+typing the `#` character and proceeding.  They will usually _not_
+require fancy banners.  A potential danger of providing this simple
+facility is that some authors may be tempted to overdo their script
+decoration.  Comments are important, but excessive decoration can
+detract from the aesthetics rather than enhance, and even with this
+package making them can waste a lot of time.
+
+People who find the package useful but would like to suggest other
+tweaks or front-ends are welcome to contact the author at the email
+address given in the package itself.

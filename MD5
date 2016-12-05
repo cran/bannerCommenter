@@ -1,0 +1,13 @@
+3d62da2349ef7a119abd5c85000af7db *DESCRIPTION
+1ee8843080f920d001d33a9cded63e58 *NAMESPACE
+86f8c5c1b8cb5c5acb297ab3f1b36c1f *R/banner.R
+0e17c5f2aba24b768da4df4ddef8a074 *R/copy_to_clipboard.R
+5d8c748d45ad42ed52d790f21ac7f8ca *build/vignette.rds
+b2394509ec859b2e18c83429b7ce7fab *inst/doc/Banded_comment_maker.R
+c7fc2053759f8971474d922e142a837a *inst/doc/Banded_comment_maker.Rmd
+2b9a63e51d546133fbf5c60fd9d2480f *inst/doc/Banded_comment_maker.pdf
+7c102ce76f04502a3c8d35b9d2bbf71e *man/banner.Rd
+d4bdf6fb123cf59f3d1f362b21f883bf *man/copy_to_clipboard.Rd
+3ffce81e9917fc60d781587a4039d25e *man/print.banner.Rd
+c7fc2053759f8971474d922e142a837a *vignettes/Banded_comment_maker.Rmd
+410c8452af9ddd5d9be15ff40117dd5f *vignettes/header.tex
