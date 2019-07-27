@@ -20,4 +20,3 @@ As well as printing the comment string in the console window
 the same text strings are transferred to a clipboard, if possible,
 ready for pasting into the R script currently being drafted.
 }
-

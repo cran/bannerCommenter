@@ -39,4 +39,3 @@ Note the on \code{Windows} the function \code{utils::writeClipboard} offers
 a much more extensive range of possibilities for communicating with the
 clipboard device, but this facility is only available on \code{Windows}.
 }
-

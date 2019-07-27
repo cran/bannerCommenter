@@ -25,6 +25,8 @@
 #' @param bandChar A single character.  Used instead of # for all characters in
 #' the bands around the text, apart from the first character of every line.
 #' @param center Alternative spelling of \code{centre}.
+#' @param fold Logical: should the text be folded to ensure lines are not too long?
+#' @param maxChar Ingeter: maximum length allowed in any line if \code{fold} is \code{TRUE}.
 #'
 #' @return A character string vector returned invisibly,
 #' but automatically displayed in the console
@@ -53,16 +55,32 @@
 #' boxup("")
 banner <- function(x, ..., emph = FALSE, snug = FALSE, upper = emph,
                    # centre = !snug && emph,
-                   centre = TRUE,
+                   centre = !fold,
                    leftSideHashes = 2 + emph, rightSideHashes = leftSideHashes,
                    minHashes = (!snug) * (65 + 10*emph), numLines = 1+emph,
-                   bandChar = "#", center = centre) {
+                   bandChar = "#", center = centre, fold = FALSE, maxChar = 75) {
   if(missing(x)) {
     x <- if(interactive()) {
       paste(scan(what = "", sep = "\n", quiet = TRUE), collapse = "\n")
     } else ""
   }
-  text <- paste(as.character(unlist(list(x, ...))), collapse = "\n")
+  if(fold) {
+    text <- gsub("\n", " ", paste(as.character(unlist(list(x, ...))), collapse = " "))
+    if(nchar(text) > maxChar) {
+      txt <- character()
+      repeat {
+        if(nchar(text) <= maxChar) break
+        pos <- gregexpr(" ", text)[[1]]
+        if(any(pos < 0) || !any(pos <= maxChar)) break
+        pos <- max(pos[pos <= maxChar])
+        txt <- c(txt, substring(text, 0, pos))
+        text <- substring(text, pos+1, nchar(text))
+      }
+      text <- paste(sub("^ +", "", sub(" +$", "", c(txt, text))), collapse = "\n")
+    }
+  } else {
+    text <- paste(as.character(unlist(list(x, ...))), collapse = "\n")
+  }
   text <- strsplit(text, "\n")[[1]]
   if(length(text) == 0) text <- ""
   nt <- length(text)
@@ -81,7 +99,7 @@ banner <- function(x, ..., emph = FALSE, snug = FALSE, upper = emph,
   if(nt == 1 && n0 == 0)
     return(structure(c("\n", rep(line, 1 + emph), "\n"),
                      class = "banner"))
-  if(missing(centre))
+  if(missing(centre) & !missing(center))
     centre <- center
   mid <- character(nt)
   for(k in kt) {
@@ -110,8 +128,8 @@ banner <- function(x, ..., emph = FALSE, snug = FALSE, upper = emph,
 #' of a major code section
 #'
 #' @export
-section <- function(..., emph = TRUE) {
-  banner(..., emph = emph)
+section <- function(..., emph = TRUE, centre = TRUE, fold = TRUE) {
+  banner(..., emph = emph, centre = centre, fold = fold)
 }
 #' @describeIn banner Make a minimally boxed banner comment
 #'
@@ -126,7 +144,9 @@ boxup <- function(..., rightSideHashes = 1,
 #'
 #' @export
 open_box <- function(..., minHashes = 0, rightSideHashes = 0, centre = FALSE,
-                     bandChar = "-") {
+                     bandChar = "-", center) {
+  if(missing(centre) & !missing(center))
+    centre <- center
   banner(..., minHashes = minHashes, rightSideHashes = rightSideHashes, centre = centre,
          bandChar = bandChar)
 }
@@ -135,7 +155,9 @@ open_box <- function(..., minHashes = 0, rightSideHashes = 0, centre = FALSE,
 #'
 #' @export
 block <- function(..., leftSideHashes = 3, rightSideHashes = 0, centre = FALSE,
-                  minHashes = 0, numLines = 0) {
+                  minHashes = 0, numLines = 0, center) {
+  if(missing(centre) & !missing(center))
+    centre <- center
   banner(..., leftSideHashes = leftSideHashes, centre = centre,
          rightSideHashes = rightSideHashes, numLines = numLines)
 }

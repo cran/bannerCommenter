@@ -1,5 +1,5 @@
 ---
-title: "Consistent Banner Comments for R Scripts"
+title: "Making Banner Comments for R Scripts"
 author: "Bill Venables"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
     toc: yes
     toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{Consistent Banner Comments for R Scripts}
+  %\VignetteIndexEntry{Making Banner Comments for R Scripts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,9 +21,10 @@ library(bannerCommenter)
 
 ## Rationale
 
-This tiny package is purely for the convenience of authors who wish to
-document their code with the occasional block of clearly marked
-comments in order to make the code more easily navigable.
+This tiny package is for the convenience of `R` script authors 
+who wish to document their code with the occasional block of clearly 
+marked comment lines in order to make the code more easily navigable
+by others, or even by the same author at some later date.
 
 A common practice is to use comment lines enclosed in some kind of
 band, or box of display characters.  We call such a block of comments
@@ -83,12 +84,33 @@ Two other conveniences are also provided.
    called `banner(..., emph = TRUE)`, that is with the `emph` argument
    having a different default value.
 
-2. Rather than typing strings with quite delimiters separated by
-   commas, if the function is called with no string arguments, and in
-   an interactive session of course, the strings are read from the
-   terminal, line by line, with prompts issued as with the `scan`
-   function.  An empty line indicates the lines are complete.
+2. Rather than typing strings with quote delimiters separated by
+   commas, if the function is called with no string arguments, 
+   the strings are read from the console, line by line, with prompts 
+   issued as with the `scan` function.  An empty line indicates 
+   the text input complete.
    
+The process is particularly simple when working in `RStudio`.  The
+script will be composed in the `Source` pane.  When a banner comment
+is desired, the process is:
+
+* Place the cursor at the beginning of the line where you want the comment
+  to appear.
+
+* Press `Ctrl-1` to move the focus to the console pane.
+
+* Type `banner()` or one of the alternatives.
+
+* Enter the text of your comment, one line per line, terminated by a blank line.
+
+* Press `Ctrl-2` to shift the focus back to the `Source` pane, followed by
+  either `Ctrl-v` or `Ctrl-y` (both seem to work!) to transfer the complete
+  comment to the script.
+  
+* If for some reason you make a slip and lose the clipboard contents, the
+  full comment remains available in the console window for copy-and-paste.
+  
+
 An example, again with the same banner comment, is as follows
 
 ```
@@ -137,6 +159,8 @@ txt <- structure(c("`x, ...`", "",
                    "`numLines`", 
                    "`bandChar`", 
                    "`center`", 
+                   "`fold`",
+                   "`maxChar`",
                    "One or more strings, which may be missing.", 
                    "(Single strings may be further broken by '`\\n`'.)",
                    "Do you want emphasis, i.e. a bigger, bolder banner?", 
@@ -148,19 +172,23 @@ txt <- structure(c("`x, ...`", "",
                    "How long do you want the bands (at least)?", 
                    "How many lines above and below do you want?", 
                    "What character do you want to use for the bands?", 
-                   "Foreign, alternative spelling of '`centre`'", 
+                   "Alternative (foreign) spelling of '`centre`'", 
+                   "Do you want `banner` to find suitable line breaks?",
+                   "Maximum number of characters in any one line, (if `fold`).",
                    "`<none>`", "",
                    "`FALSE`", 
                    "`FALSE`", 
                    "`emph`", 
-                   "`!snug && emph`", 
+                   "`!fold`", 
                    "`2 + emph`", 
                    "`leftSideHashes`", 
                    "`(!snug) * (65 + 10 * emph)`", 
                    "`1 + emph`", 
                    "`\"#\"`", 
-                   "`centre`"), 
-                 .Dim = c(12L, 3L), 
+                   "`centre`",
+                   "`FALSE`",
+                   "75"), 
+                 .Dim = c(14L, 3L), 
                  .Dimnames = list(NULL, c("Argument", "Meaning", "Default")))
 knitr::kable(txt)
 ```
@@ -175,6 +203,7 @@ function itself.
 
 ```{r, echo = TRUE}
 txt <- "This is the text of a comment"
+
 banner(txt)  ## default heavy style
 
 banner(txt, centre = TRUE, bandChar = "-")
@@ -183,12 +212,13 @@ boxup(txt, snug = TRUE, bandChar = "=")
 
 open_box(txt, bandChar = ":")
 
-block("This is a chatty comment.  Entering it this way just",
-      "saves a tiny bit of typing but it can be useful if",
-      "you need multiple initial hash marks, as you may when",
-      "using Emacs/ESS, for example.",
-      "Or if you want the lines centred for some odd reason.",
-      center = TRUE)
+block(paste("This is a chatty comment.  Entering it this way just",
+            "saves a tiny bit of typing but it can be useful if",
+            "you need multiple initial hash marks, as you may when",
+            "using editors in RStudio or Emacs/ESS, for example.",
+            "Or if you want the lines folded to make things more compact.",
+            collapse = " "),
+      fold = TRUE)
 
 boxup("")  ## short lines of uniform length, for use as a separator
 
@@ -264,9 +294,9 @@ Use sparingly and judiciously.  Most comments will simply be done by
 typing the `#` character and proceeding.  They will usually _not_
 require fancy banners.  A potential danger of providing this simple
 facility is that some authors may be tempted to overdo their script
-decoration.  Comments are important, but excessive decoration can
-detract from the aesthetics rather than enhance, and even with this
-package making them can waste a lot of time.
+decoration.  Comments are important, but _excessive_ fancy comments will
+detract from the aesthetics and waste a lot of otherwise productive
+coding time.
 
 People who find the package useful but would like to suggest other
 tweaks or front-ends are welcome to contact the author at the email

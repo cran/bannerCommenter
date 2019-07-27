@@ -2,26 +2,27 @@
 % Please edit documentation in R/banner.R
 \name{banner}
 \alias{banner}
-\alias{block}
+\alias{section}
 \alias{boxup}
 \alias{open_box}
-\alias{section}
+\alias{block}
 \title{Make a decorated comment in an R script}
 \usage{
-banner(x, ..., emph = FALSE, snug = FALSE, upper = emph, centre = TRUE,
-  leftSideHashes = 2 + emph, rightSideHashes = leftSideHashes,
-  minHashes = (!snug) * (65 + 10 * emph), numLines = 1 + emph,
-  bandChar = "#", center = centre)
+banner(x, ..., emph = FALSE, snug = FALSE, upper = emph,
+  centre = !fold, leftSideHashes = 2 + emph,
+  rightSideHashes = leftSideHashes, minHashes = (!snug) * (65 + 10 *
+  emph), numLines = 1 + emph, bandChar = "#", center = centre,
+  fold = FALSE, maxChar = 75)
 
-section(..., emph = TRUE)
+section(..., emph = TRUE, centre = TRUE, fold = TRUE)
 
 boxup(..., rightSideHashes = 1, bandChar = "-")
 
 open_box(..., minHashes = 0, rightSideHashes = 0, centre = FALSE,
-  bandChar = "-")
+  bandChar = "-", center)
 
 block(..., leftSideHashes = 3, rightSideHashes = 0, centre = FALSE,
-  minHashes = 0, numLines = 0)
+  minHashes = 0, numLines = 0, center)
 }
 \arguments{
 \item{x}{A string, first line of the comment. If
@@ -55,6 +56,10 @@ and below do you want?}
 the bands around the text, apart from the first character of every line.}
 
 \item{center}{Alternative spelling of \code{centre}.}
+
+\item{fold}{Logical: should the text be folded to ensure lines are not too long?}
+
+\item{maxChar}{Ingeter: maximum length allowed in any line if \code{fold} is \code{TRUE}.}
 }
 \value{
 A character string vector returned invisibly,
@@ -76,6 +81,7 @@ of a major code section
 
 \item \code{block}: Make a simple block of comment lines
 }}
+
 \examples{
 banner("This should appear clearly and stand out.",
        "The lines are left justified by default.")
@@ -98,4 +104,3 @@ block("This is a chatty comment.  Entering it this way just",
 ## some authors like to use lines of a uniform length to separate code sections:
 boxup("")
 }
-

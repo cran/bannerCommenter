@@ -28,6 +28,8 @@ txt <- structure(c("`x, ...`", "",
                    "`numLines`", 
                    "`bandChar`", 
                    "`center`", 
+                   "`fold`",
+                   "`maxChar`",
                    "One or more strings, which may be missing.", 
                    "(Single strings may be further broken by '`\\n`'.)",
                    "Do you want emphasis, i.e. a bigger, bolder banner?", 
@@ -39,24 +41,29 @@ txt <- structure(c("`x, ...`", "",
                    "How long do you want the bands (at least)?", 
                    "How many lines above and below do you want?", 
                    "What character do you want to use for the bands?", 
-                   "Foreign, alternative spelling of '`centre`'", 
+                   "Alternative (foreign) spelling of '`centre`'", 
+                   "Do you want `banner` to find suitable line breaks?",
+                   "Maximum number of characters in any one line, (if `fold`).",
                    "`<none>`", "",
                    "`FALSE`", 
                    "`FALSE`", 
                    "`emph`", 
-                   "`!snug && emph`", 
+                   "`!fold`", 
                    "`2 + emph`", 
                    "`leftSideHashes`", 
                    "`(!snug) * (65 + 10 * emph)`", 
                    "`1 + emph`", 
                    "`\"#\"`", 
-                   "`centre`"), 
-                 .Dim = c(12L, 3L), 
+                   "`centre`",
+                   "`FALSE`",
+                   "75"), 
+                 .Dim = c(14L, 3L), 
                  .Dimnames = list(NULL, c("Argument", "Meaning", "Default")))
 knitr::kable(txt)
 
 ## ---- echo = TRUE--------------------------------------------------------
 txt <- "This is the text of a comment"
+
 banner(txt)  ## default heavy style
 
 banner(txt, centre = TRUE, bandChar = "-")
@@ -65,12 +72,13 @@ boxup(txt, snug = TRUE, bandChar = "=")
 
 open_box(txt, bandChar = ":")
 
-block("This is a chatty comment.  Entering it this way just",
-      "saves a tiny bit of typing but it can be useful if",
-      "you need multiple initial hash marks, as you may when",
-      "using Emacs/ESS, for example.",
-      "Or if you want the lines centred for some odd reason.",
-      center = TRUE)
+block(paste("This is a chatty comment.  Entering it this way just",
+            "saves a tiny bit of typing but it can be useful if",
+            "you need multiple initial hash marks, as you may when",
+            "using editors in RStudio or Emacs/ESS, for example.",
+            "Or if you want the lines folded to make things more compact.",
+            collapse = " "),
+      fold = TRUE)
 
 boxup("")  ## short lines of uniform length, for use as a separator
 
