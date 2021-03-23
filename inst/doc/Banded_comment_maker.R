@@ -1,22 +1,22 @@
-## ---- include=FALSE------------------------------------------------------
+## ---- include=FALSE-----------------------------------------------------------
 knitr::opts_chunk$set(comment = "", echo = FALSE)
 library(bannerCommenter)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 section("Section 1", "Data input and initialization")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 boxup("Primary data input", bandChar = "-", center = TRUE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 open_box("Some minor glitches in the data\nneed special treatment here", 
       bandChar = ".", snug = TRUE)
 
-## ---- echo = TRUE--------------------------------------------------------
+## ---- echo = TRUE-------------------------------------------------------------
 library(bannerCommenter)
 banner("Section 1:", "Data input and initialization", emph = TRUE)
 
-## ---- results = "asis"---------------------------------------------------
+## ---- results = "asis"--------------------------------------------------------
 txt <- structure(c("`x, ...`", "",
                    "`emph`", 
                    "`snug`", 
@@ -61,7 +61,7 @@ txt <- structure(c("`x, ...`", "",
                  .Dimnames = list(NULL, c("Argument", "Meaning", "Default")))
 knitr::kable(txt)
 
-## ---- echo = TRUE--------------------------------------------------------
+## ---- echo = TRUE-------------------------------------------------------------
 txt <- "This is the text of a comment"
 
 banner(txt)  ## default heavy style
@@ -84,10 +84,10 @@ boxup("")  ## short lines of uniform length, for use as a separator
 
 section("")  ## heavier, longer double lines to separate bigger things
 
-## ---- eval = FALSE, echo = TRUE------------------------------------------
+## ---- eval = FALSE, echo = TRUE-----------------------------------------------
 #  copy_to_clipboard(txt)
 
-## ---- eval=FALSE, echo = TRUE, message = FALSE---------------------------
+## ---- eval=FALSE, echo = TRUE, message = FALSE--------------------------------
 #  library(dplyr)
 #  mtcarsText <- datasets::mtcars   %>%
 #    capture.output(write.table(.)) %>%

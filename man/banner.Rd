@@ -8,21 +8,45 @@
 \alias{block}
 \title{Make a decorated comment in an R script}
 \usage{
-banner(x, ..., emph = FALSE, snug = FALSE, upper = emph,
-  centre = !fold, leftSideHashes = 2 + emph,
-  rightSideHashes = leftSideHashes, minHashes = (!snug) * (65 + 10 *
-  emph), numLines = 1 + emph, bandChar = "#", center = centre,
-  fold = FALSE, maxChar = 75)
+banner(
+  x,
+  ...,
+  emph = FALSE,
+  snug = FALSE,
+  upper = emph,
+  centre = !fold,
+  leftSideHashes = 2 + emph,
+  rightSideHashes = leftSideHashes,
+  minHashes = (!snug) * (65 + 10 * emph),
+  numLines = 1 + emph,
+  bandChar = "#",
+  center = centre,
+  fold = FALSE,
+  maxChar = 75
+)
 
 section(..., emph = TRUE, centre = TRUE, fold = TRUE)
 
 boxup(..., rightSideHashes = 1, bandChar = "-")
 
-open_box(..., minHashes = 0, rightSideHashes = 0, centre = FALSE,
-  bandChar = "-", center)
+open_box(
+  ...,
+  minHashes = 0,
+  rightSideHashes = 0,
+  centre = FALSE,
+  bandChar = "-",
+  center
+)
 
-block(..., leftSideHashes = 3, rightSideHashes = 0, centre = FALSE,
-  minHashes = 0, numLines = 0, center)
+block(
+  ...,
+  leftSideHashes = 3,
+  rightSideHashes = 0,
+  centre = FALSE,
+  minHashes = 0,
+  numLines = 0,
+  center
+)
 }
 \arguments{
 \item{x}{A string, first line of the comment. If
@@ -86,7 +110,7 @@ of a major code section
 banner("This should appear clearly and stand out.",
        "The lines are left justified by default.")
 section("This is the first line in a section heading",
-        "and this is the second\\nand this the third.")
+        "and this is the second\nand this the third.")
 boxup("This is a less obtrusive comment",
       "centred on multiple lines", center = TRUE, bandChar = ".")
 banner("This is an important side issue.", "Take note!",

@@ -1,7 +1,7 @@
 Package: bannerCommenter
 Type: Package
 Title: Make Banner Comments with a Consistent Format
-Version: 0.1.1
+Version: 1.0.0
 Author: Bill Venables <Bill.Venables@gmail.com>
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
 Description: A convenience package for use while drafting code.
@@ -15,10 +15,10 @@ Description: A convenience package for use while drafting code.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown, dplyr, datasets
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-07-27 05:27:44 UTC; bill
+Packaged: 2021-03-23 08:13:55 UTC; bill
 Repository: CRAN
-Date/Publication: 2019-07-27 05:40:02 UTC
+Date/Publication: 2021-03-23 08:30:09 UTC
